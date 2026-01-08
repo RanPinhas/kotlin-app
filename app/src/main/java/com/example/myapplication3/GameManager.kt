@@ -2,165 +2,161 @@ package com.example.myapplication3
 
 import android.view.View
 import android.widget.ImageView
-import kotlin.random.Random
 
-data class Rock(var row: Int, val lane: Int)
+class GameManager(private val callback: GameCallback) {
 
-class GameManager {
+    private var score = 0
+    private var lives = 3
+    private var carPosition = 2 // 0..4 (התחלה באמצע)
 
-    private lateinit var carLanes: List<ImageView>
-    private var carPos = 0
+    // מערכים של התצוגה (Views)
+    private var rockCols: List<List<ImageView>>? = null
+    private var cigarCols: List<List<ImageView>>? = null
+    private var carLanes: List<ImageView>? = null
+    private var lifeHearts: List<ImageView>? = null
 
-    fun initCar(lanes: List<ImageView>, startPos: Int = 1) {
-        carLanes = lanes
-        carPos = startPos
-        showCarAt(carPos)
+
+    private val gridRows = 5
+    private val gridCols = 5
+    private val logicalGrid = Array(gridCols) { IntArray(gridRows) }
+
+    fun initGameGrid(rocks: List<List<ImageView>>, cigars: List<List<ImageView>>) {
+        this.rockCols = rocks
+        this.cigarCols = cigars
+        clearGrid()
     }
 
-    private fun showCarAt(pos: Int) {
-        for (i in carLanes.indices) {
-            carLanes[i].visibility = if (i == pos) View.VISIBLE else View.INVISIBLE
-            carLanes[i].alpha = 1f
+    fun initCar(cars: List<ImageView>) {
+        this.carLanes = cars
+        updateCarUI()
+    }
+
+    fun initLife(hearts: List<ImageView>) {
+        this.lifeHearts = hearts
+        updateLivesUI()
+    }
+
+    fun resetGame() {
+        score = 0
+        lives = 3
+        carPosition = 2
+        clearGrid()
+        updateCarUI()
+        updateLivesUI()
+    }
+
+    private fun clearGrid() {
+        for (i in 0 until gridCols) {
+            for (j in 0 until gridRows) {
+                logicalGrid[i][j] = 0
+                rockCols?.get(i)?.get(j)?.visibility = View.INVISIBLE
+                cigarCols?.get(i)?.get(j)?.visibility = View.INVISIBLE
+            }
         }
     }
 
-    private fun animateCarMove(oldPos: Int, newPos: Int) {
-        val oldCar = carLanes[oldPos]
-        val newCar = carLanes[newPos]
-
-        val direction = if (newPos > oldPos) 1f else -1f
-        val rotationAngle = direction * 5f
-
-        newCar.alpha = 0f
-        newCar.visibility = View.VISIBLE
-        newCar.rotation = rotationAngle
-
-        oldCar.animate()
-            .alpha(0f)
-            .setDuration(150)
-            .withEndAction {
-                oldCar.visibility = View.INVISIBLE
-                oldCar.alpha = 1f
-                oldCar.rotation = 0f
-            }.start()
-
-        newCar.animate()
-            .alpha(1f)
-            .rotation(0f)
-            .setDuration(300)
-            .start()
-    }
+    // --- תנועת המכונית ---
 
     fun moveLeft() {
-        if (carPos <= 0) return
-        val oldPos = carPos
-        carPos--
-        animateCarMove(oldPos, carPos)
+        if (carPosition > 0) {
+            carPosition--
+            updateCarUI()
+        }
     }
 
     fun moveRight() {
-        if (carPos >= carLanes.size - 1) return
-        val oldPos = carPos
-        carPos++
-        animateCarMove(oldPos, carPos)
+        if (carPosition < 4) {
+            carPosition++
+            updateCarUI()
+        }
     }
 
-    fun canMoveLeft() = carPos > 0
-    fun canMoveRight() = carPos < carLanes.size - 1
+    fun canMoveLeft(): Boolean = carPosition > 0
+    fun canMoveRight(): Boolean = carPosition < 4
 
-    private lateinit var lifeLanes: List<ImageView>
-    private var lives = 3
+    private fun updateCarUI() {
+        carLanes?.forEachIndexed { index, imageView ->
+            imageView.visibility = if (index == carPosition) View.VISIBLE else View.INVISIBLE
+        }
+    }
 
-    fun initLife(life: List<ImageView>) {
-        lifeLanes = life
-        updateLifeUI()
+    private fun updateLivesUI() {
+        lifeHearts?.forEachIndexed { index, imageView ->
+            imageView.visibility = if (index < lives) View.VISIBLE else View.INVISIBLE
+        }
+    }
+
+    // --- לוגיקת נפילת עצמים ---
+
+    fun spawnOneItem() {
+        val randomCol = (0 until gridCols).random()
+        // בחירה רנדומלית: 1 = אבן, 2 = סיגר
+        // נניח 20% סיכוי לסיגר
+        val type = if ((1..5).random() == 1) 2 else 1
+
+        logicalGrid[randomCol][0] = type
+        updateCellUI(randomCol, 0, type)
+    }
+
+    fun moveItemStep(
+        onCollision: () -> Unit,
+        onPass: () -> Unit,
+        onBonus: () -> Unit
+    ) {
+        // רצים מלמטה למעלה כדי לא לדרוס נתונים
+        for (col in 0 until gridCols) {
+            // בדיקת השורה האחרונה (התחתונה)
+            val itemAtBottom = logicalGrid[col][gridRows - 1]
+
+            if (itemAtBottom != 0) {
+                // בדיקה אם המכונית נמצאת בעמודה הזו
+                if (col == carPosition) {
+                    if (itemAtBottom == 1) {
+                        // התנגשות באבן!
+                        callback.collisionDetected() // הודעה ל-SignalManager
+                        onCollision() // לוגיקה נוספת של ה-MainActivity
+                    } else if (itemAtBottom == 2) {
+                        // תפיסת סיגר!
+                        onBonus()
+                    }
+                } else {
+                    onPass()
+                }
+                // מחיקה מהלוגיקה ומהמסך
+                logicalGrid[col][gridRows - 1] = 0
+                updateCellUI(col, gridRows - 1, 0)
+            }
+
+            // הזזת שאר השורות למטה
+            for (row in gridRows - 1 downTo 1) {
+                val itemAbove = logicalGrid[col][row - 1]
+                logicalGrid[col][row] = itemAbove
+                updateCellUI(col, row, itemAbove)
+            }
+
+            // ניקוי השורה העליונה
+            logicalGrid[col][0] = 0
+            updateCellUI(col, 0, 0)
+        }
+    }
+
+    private fun updateCellUI(col: Int, row: Int, type: Int) {
+        // הסתרת הכל בתא הזה
+        rockCols?.get(col)?.get(row)?.visibility = View.INVISIBLE
+        cigarCols?.get(col)?.get(row)?.visibility = View.INVISIBLE
+
+        // הצגת החדש
+        if (type == 1) {
+            rockCols?.get(col)?.get(row)?.visibility = View.VISIBLE
+        } else if (type == 2) {
+            cigarCols?.get(col)?.get(row)?.visibility = View.VISIBLE
+        }
     }
 
     fun decreaseLife(): Int {
-        if (lives > 0) {
-            lives--
-            updateLifeUI()
-        }
+        lives--
+        updateLivesUI()
+        callback.livesUpdated(lives)
         return lives
-    }
-
-    private fun updateLifeUI() {
-        for (i in lifeLanes.indices) {
-            lifeLanes[i].visibility = if (i < lives) View.VISIBLE else View.INVISIBLE
-        }
-    }
-
-    fun resetGame(startPos: Int = 1) {
-        lives = 3
-        updateLifeUI()
-
-        if (::rockCols.isInitialized) {
-            rockCols.flatten().forEach { it.visibility = View.INVISIBLE }
-        }
-        activeRocks.clear()
-
-        carPos = startPos
-        showCarAt(carPos)
-    }
-
-    private lateinit var rockCols: List<List<ImageView>>
-    val activeRocks = mutableListOf<Rock>()
-
-    fun initRocks(cols: List<List<ImageView>>) {
-        rockCols = cols
-        rockCols.flatten().forEach { it.visibility = View.INVISIBLE }
-        activeRocks.clear()
-    }
-
-    fun startNewRocks() {
-        if (!::rockCols.isInitialized) return
-
-        val lanesAvailable = (0 until rockCols.size).toMutableList()
-        val numRocksToStart = 1
-
-        activeRocks.removeAll { it.row == 0 }
-
-        for (i in 0 until numRocksToStart) {
-            if (lanesAvailable.isEmpty()) break
-
-            val laneIndex = Random.nextInt(lanesAvailable.size)
-            val newLane = lanesAvailable.removeAt(laneIndex)
-
-            val newRock = Rock(0, newLane)
-            activeRocks.add(newRock)
-            rockCols[newRock.lane][newRock.row].visibility = View.VISIBLE
-        }
-    }
-
-    fun moveRockStep(onCollision: () -> Unit): Boolean {
-        if (!::rockCols.isInitialized || activeRocks.isEmpty()) {
-            return false
-        }
-
-        var spawnNeeded = false
-        val rocksToMove = activeRocks.toList()
-        val rocksToRemove = mutableListOf<Rock>()
-
-        for (rock in rocksToMove) {
-            if (!activeRocks.contains(rock)) continue
-
-            rockCols[rock.lane][rock.row].visibility = View.INVISIBLE
-
-            if (rock.row == rockCols[rock.lane].size - 1) {
-                if (rock.lane == carPos) {
-                    onCollision()
-                }
-                rocksToRemove.add(rock)
-            } else {
-                rock.row++
-                rockCols[rock.lane][rock.row].visibility = View.VISIBLE
-                if (rock.row == rockCols[rock.lane].size - 1) {
-                    spawnNeeded = true
-                }
-            }
-        }
-
-        activeRocks.removeAll(rocksToRemove)
-        return spawnNeeded
     }
 }

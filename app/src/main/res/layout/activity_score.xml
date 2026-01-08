@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1e1f22"
+    tools:context=".ScoreActivity"
+    android:layoutDirection="ltr">
+
+
+    <TextView
+        android:id="@+id/label_name1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_alignBottom="@+id/lblPlayerName"
+        android:fontFamily="@font/jetbrains_mono_thin"
+        android:gravity="center"
+        android:text="android"
+        android:textColor="#c27ca0"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/label_name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/label_name1"
+        android:layout_alignBottom="@+id/lblPlayerName"
+        android:fontFamily="@font/jetbrains_mono_thin"
+        android:gravity="center"
+        android:text=":text"
+        android:textColor="#ffffff"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/label_name3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/jetbrains_mono_thin"
+        android:layout_toEndOf="@+id/label_name2"
+        android:layout_alignBottom="@+id/lblPlayerName"
+        android:gravity="center"
+        android:text="="
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lblPlayerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/label_name3"
+        android:layout_above="@+id/label_game_over"
+        android:fontFamily="@font/jetbrains_mono_thin"
+        android:text="&quot;NAME&quot;"
+        android:textColor="#6aab73"
+        android:textSize="25sp"
+        android:textStyle="bold"/>
+
+
+    <TextView
+        android:id="@+id/label_game_over1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_below="@+id/lblPlayerName"
+        android:fontFamily="@font/jetbrains_mono_thin"
+        android:gravity="center"
+        android:text="android"
+        android:textColor="#c27ca0"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/label_game_over2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/label_game_over1"
+        android:layout_below="@+id/lblPlayerName"
+        android:fontFamily="@font/jetbrains_mono_thin"
+        android:gravity="center"
+        android:text=":text"
+        android:textColor="#ffffff"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/label_game_over3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/jetbrains_mono_thin"
+        android:layout_toEndOf="@+id/label_game_over2"
+        android:layout_below="@+id/lblPlayerName"
+        android:gravity="center"
+        android:text="="
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/label_game_over"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/label_game_over3"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/jetbrains_mono_thin"
+        android:text="&quot;GAME OVER&quot;"
+        android:textColor="#6aab73"
+        android:textSize="25sp"
+        android:textStyle="bold"/>
+
+
+    <TextView
+        android:id="@+id/lblScore4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/label_game_over1"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/jetbrains_mono_thin"
+        android:gravity="center"
+        android:text="private var"
+        android:textColor="#C37B54"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lblScore3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/lblScore"
+        android:layout_toEndOf="@+id/lblScore2"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/jetbrains_mono_thin"
+        android:gravity="center"
+        android:text="Score"
+        android:textColor="#c27ca0"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lblScore2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_alignBottom="@+id/lblScore"
+        android:layout_toEndOf="@+id/lblScore4"
+        android:fontFamily="@font/jetbrains_mono_thin"
+        android:gravity="center"
+        android:text="="
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lblScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/lblScore3"
+        android:gravity="center"
+        android:layout_below="@+id/label_game_over"
+        android:layout_marginEnd="60dp"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/jetbrains_mono_thin"
+        android:textSize="20sp"
+        android:text="00"
+        android:textColor="#5692c7"
+        android:textStyle="bold" />
+
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/label_game_over"
+        android:layout_marginTop="50dp"
+        android:text="Back to Menu"
+        android:textSize="24sp"
+        android:backgroundTint="#c27ca0"
+        android:padding="15dp"/>
+
+    <Button
+        android:id="@+id/btnLeaderboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnBack"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Top 10 Leaderboard"
+        android:backgroundTint="#6aab73"
+        android:textSize="24dp"
+       />
+
+</RelativeLayout>

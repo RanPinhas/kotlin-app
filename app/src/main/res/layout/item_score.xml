@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layoutDirection="ltr"
+    android:padding="10dp"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/lblRankAndName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:text="1. Guy"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="left|center_vertical"
+        android:textDirection="ltr"
+        android:fontFamily="@font/jetbrains_mono_thin"/>
+
+    <TextView
+        android:id="@+id/lblScore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="150 pts"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:fontFamily="@font/jetbrains_mono_thin"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/lblType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Sensor"
+        android:textColor="#ff002b"
+        android:textSize="14sp"
+        android:gravity="end"
+        android:fontFamily="@font/jetbrains_mono_thin"
+        android:textStyle="bold"/>
+
+</LinearLayout>

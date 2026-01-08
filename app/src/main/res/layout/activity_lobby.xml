@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#1e1f22"
+    tools:context=".LobbyActivity"
+    android:layoutDirection="ltr">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:background="@android:color/transparent">
+
+        <ImageView
+            android:id="@+id/imgCar50"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_above="@+id/label_name2"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:src="@drawable/img_codee"
+            />
+
+        <TextView
+            android:id="@+id/label_name1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_alignBottom="@+id/label"
+            android:fontFamily="@font/jetbrains_mono_thin"
+            android:gravity="center"
+            android:text="android"
+            android:textColor="#c27ca0"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/label_name2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/label_name1"
+            android:layout_alignBottom="@+id/label"
+            android:fontFamily="@font/jetbrains_mono_thin"
+            android:gravity="center"
+            android:text=":text"
+            android:textColor="#ffffff"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/label_name3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/jetbrains_mono_thin"
+            android:layout_toEndOf="@+id/label_name2"
+            android:layout_alignBottom="@+id/label"
+            android:gravity="center"
+            android:text="="
+            android:textColor="#FFFFFF"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/label_name3"
+            android:fontFamily="@font/jetbrains_mono_thin"
+            android:text="&quot;Kodee&quot;"
+            android:textColor="#6aab73"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/label"
+            android:background="#3a3a3a"
+            android:gravity="center"
+            android:hint="Enter Name"
+            android:padding="10dp"
+            android:textColor="#d4b678"
+            android:textColorHint="#d4b678"
+            android:textSize="20sp"
+            android:singleLine="true"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btnStartGame_fast"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="16dp"
+            android:layout_below="@+id/etName"
+            android:text="Fast Mode: OFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:background="@drawable/img_background"
+            app:backgroundTint="@null" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@android:color/transparent">
+
+        <Button
+            android:id="@+id/btnStartGame"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:text="Start Game"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:background="@drawable/img_background"
+            app:backgroundTint="@null" />
+
+
+        <Button
+            android:id="@+id/btnLeaderboard"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:text="Start sensor"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:background="@drawable/img_background"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnMap"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:text="Map"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:background="@drawable/img_background"
+            app:backgroundTint="@null" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:background="@android:color/transparent">
+    </LinearLayout>
+
+</LinearLayout>
